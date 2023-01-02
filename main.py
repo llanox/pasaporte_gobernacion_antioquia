@@ -9,19 +9,21 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import Select
 
 URL_REAL = 'https://sedeelectronica.antioquia.gov.co/pasaporte/user/pago/'
-URL_TEST = 'file://'+os.getcwd()+'/test/payment_webhtml.html'
-URL_PAYMENT = URL_TEST
-PATH_SCREENSHOT_PAYMENT_PAGE = os.getcwd()+'/screenshots/payment_form.png'
-PATH_SCREENSHOT_ERROR_PAGE = os.getcwd()+'/screenshots/payment_error.png'
-PATH_PAYMENT_HTML = os.getcwd()+'/website/payment_webhtml.html'
+URL_TEST = 'file://' + os.getcwd() + '/test/payment_webhtml.html'
+URL_REQUEST_PAYMENT_FORM = URL_TEST
+PATH_SCREENSHOT_PAYMENT_PAGE = os.getcwd() + '/screenshots/payment_form.png'
+PATH_SCREENSHOT_ERROR_PAGE = os.getcwd() + '/screenshots/payment_error.png'
+PATH_PAYMENT_HTML = os.getcwd() + '/website/payment_webhtml.html'
+EXECUTE_EVERY_N_SECS = 7
+
+# Aquí van los datos del solicitante
+REQUESTER_NAMES = 'Juan Manuel'
+REQUESTER_LAST_NAME = 'Jaramillo Aristizabal'
+REQUESTER_CC = '000000000'  # Número de cédula
+REQUESTER_MOBILE = '3100000000'
+REQUESTER_EMAIL = 'juan.manuel.jaramillo@yopmail.com'
 
 job_running = True
-
-SOLCITANTE_NOMBRES = 'Juan Manuel'
-SOLICITANTE_APELLIDOS = 'Jaramillo Aristizabal'
-SOLICITANTE_NUMERO_CEDULA = '000000000'
-SOLICITANTE_MOBILE = '3100000000'
-SOLICITANTE_EMAIL = 'juan.manuel.jaramillo@yopmail.com'
 
 
 # Solo funciona con MACOSX si se tiene configurado el speaker Mónica
@@ -50,25 +52,25 @@ def fill_out_payment_form(driver):
     select_tipo_id.select_by_value('CC')
 
     input_cedula = driver.find_element(By.ID, "num_ide")
-    input_cedula.send_keys(SOLICITANTE_NUMERO_CEDULA)
+    input_cedula.send_keys(REQUESTER_CC)
 
     confirm_input_cedula = driver.find_element(By.ID, "num_ide_confirm")
-    confirm_input_cedula.send_keys(SOLICITANTE_NUMERO_CEDULA)
+    confirm_input_cedula.send_keys(REQUESTER_CC)
 
     input_nombres = driver.find_element(By.ID, "nombre")
-    input_nombres.send_keys(SOLCITANTE_NOMBRES)
+    input_nombres.send_keys(REQUESTER_NAMES)
 
     input_apellidos = driver.find_element(By.ID, "apellido")
-    input_apellidos.send_keys(SOLICITANTE_APELLIDOS)
+    input_apellidos.send_keys(REQUESTER_LAST_NAME)
 
     input_mobile = driver.find_element(By.ID, "mobile")
-    input_mobile.send_keys(SOLICITANTE_MOBILE)
+    input_mobile.send_keys(REQUESTER_MOBILE)
 
     input_email = driver.find_element(By.ID, "email")
-    input_email.send_keys(SOLICITANTE_EMAIL)
+    input_email.send_keys(REQUESTER_EMAIL)
 
     confirm_input_email = driver.find_element(By.ID, "email_confirm")
-    confirm_input_email.send_keys(SOLICITANTE_EMAIL)
+    confirm_input_email.send_keys(REQUESTER_EMAIL)
 
     select_tipo_passport = Select(driver.find_element(By.NAME, 'data[opc]'))
     select_tipo_passport.select_by_value('5c5a446a15ab22a64d531d80704d4d88d5928a0a')
@@ -82,7 +84,7 @@ def fill_out_payment_form(driver):
 
 def check_page():
     driver = webdriver.Firefox()
-    driver.get(URL_PAYMENT)
+    driver.get(URL_REQUEST_PAYMENT_FORM)
     is_payment_form = "Realice el pago de su pasaporte" in driver.page_source
     if is_payment_form:
         say("Página de Pago")
@@ -98,7 +100,7 @@ def check_page():
         driver.close()
 
 
-schedule.every(7).seconds.do(check_page)
+schedule.every(EXECUTE_EVERY_N_SECS).seconds.do(check_page)
 while job_running:
     schedule.run_pending()
     time.sleep(1)
