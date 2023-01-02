@@ -26,7 +26,7 @@ SOLICITANTE_EMAIL = 'juan.manuel.jaramillo@yopmail.com'
 
 # Solo funciona con MACOSX si se tiene configurado el speaker Mónica
 def say(msg="Finish", voice="Mónica"):
-    if sys.platform == 'OS X':
+    if sys.platform == 'darwin':
         os.system(f'say -v {voice} {msg}')
     else:
         print(msg)
