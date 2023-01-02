@@ -2,7 +2,7 @@
 
 Para pagar la primera parte del derecho de expedición o renovación del pasaporte se debe ingresar a esta [página de la Gobernación de Antioquia](https://sedeelectronica.antioquia.gov.co/pasaporte/user/pago/) la cual parece que aleatoriamente otorga un token o turno para ingresar al formulario de pago de esta primera parte. Si no se llena rapidamente este formulario y se da click para ir a la pasarela de pagos, se pierde el turno y se tiene que volver a intentar nuevamente.
 
-Los intentos pueden ser muchos para lograr conseguir un turno. Por eso este script facilita la ejecución repetitiva de validación de la disponibilidad de un turno (osea si tenemos el formulario de solicitud de pago) para entonces llenarlo con la información del solicitante del pasaporte.
+Los intentos pueden ser muchos para lograr conseguir un turno. Por eso este script facilita la ejecución repetitiva de validación de la disponibilidad de un turno (osea si tenemos el formulario de solicitud de pago) para entonces llenar el formulario con la información del solicitante del pasaporte.
 
 # Cómo usar?
 
